@@ -9,11 +9,11 @@ version: 0.2
 #     ANCHORE_TIMEOUT: 300
 #     ANCHORE_FAIL_ON_POLICY: "false"    
 phases:
-  install:
-    runtime-versions:
-      python: 3.8
-    commands:
-      - "pip3 install anchorecli"
+#  install:
+#    runtime-versions:
+#      python: 3.8
+#    commands:
+#      - "pip3 install anchorecli"
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
