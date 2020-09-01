@@ -9,11 +9,14 @@ version: 0.2
 #     ANCHORE_TIMEOUT: 300
 #     ANCHORE_FAIL_ON_POLICY: "false"    
 phases:
-#  install:
-#    runtime-versions:
-#      python: 3.8
-#    commands:
-#      - "pip3 install anchorecli"
+  install:
+    runtime-versions:
+      python: 3.8
+    commands:
+      # anchore-cli required for builds using standard AWS CodeBuild image
+      #- "pip3 install anchorecli"
+      # awscli required for builds using engine-cli docker image 
+      - "pip3 install awscli"
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
