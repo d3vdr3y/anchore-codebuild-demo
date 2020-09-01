@@ -14,9 +14,9 @@ phases:
       python: 3.8
     commands:
       # anchore-cli required for builds using standard AWS CodeBuild image
-      #- "pip3 install anchorecli"
+      - "pip3 install anchorecli"
       # awscli required for builds using engine-cli docker image 
-      - "pip3 install awscli"
+      #- "pip3 install awscli"
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
