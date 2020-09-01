@@ -20,7 +20,6 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
-      #- "docker build -t $docker_img_name:$docker_tag ."
   build:
     commands:
       - echo Build started on `date`
