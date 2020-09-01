@@ -13,7 +13,6 @@ phases:
     runtime-versions:
       python: 3.8
     commands:
-      - "apt update"
       - "pip3 install anchorecli"
   pre_build:
     commands:
