@@ -27,10 +27,13 @@ phases:
       - echo Building the Docker image...
       - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
       - docker push $IMAGE_REPO_NAME:$IMAGE_TAG
-  post_build:
-    commands:
       - echo "Adding image to Anchore engine at $ANCHORE_CLI_URL"
       - anchore-cli image add $IMAGE_REPO_NAME:$IMAGE_TAG
       - echo "Waiting for analysis to complete"
       - anchore-cli image wait $IMAGE_REPO_NAME:$IMAGE_TAG --timeout $ANCHORE_TIMEOUT
       - echo "Analysis complete"
+      - if [ "${ANCHORE_FAIL_ON_POLICY}" == "true" ] ; then anchore-cli evaluate check $IMAGE_REPO_NAME:$IMAGE_TAG  ; fi
+  post_build:
+    commands:
+      - bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"0/" ]; then exit 1; fi"
+      - docker push $IMAGE_REPO_NAME:latest
