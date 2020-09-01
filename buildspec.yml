@@ -28,7 +28,7 @@ phases:
   post_build:
     commands:
       - echo "Adding image to Anchore engine at $ANCHORE_CLI_URL"
-      - anchore-cli image add ${ANCHORE_SCAN_IMAGE}
+      - anchore-cli image add $ANCHORE_SCAN_IMAGE
       - echo "Waiting for analysis to complete"
-      - anchore-cli image wait ${ANCHORE_SCAN_IMAGE} --timeout ${ANCHORE_TIMEOUT}
+      - anchore-cli image wait $ANCHORE_SCAN_IMAGE --timeout $ANCHORE_TIMEOUT
       - echo "Analysis complete"
