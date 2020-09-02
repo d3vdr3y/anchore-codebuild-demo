@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# anchore-codebuild-demo
-=======
 # anchore-codebuild-demo
 
 ### Workflow
@@ -47,4 +44,3 @@ Run Terraform apply
 terraform apply
 ```
 (Note: Terraform will only deploy CodeBuild and the required resources. You can run a test build using CodeBuild from the AWS Console or via CLI)
->>>>>>> 6a211aa... added workflow to readme file
