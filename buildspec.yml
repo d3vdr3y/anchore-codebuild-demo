@@ -47,7 +47,7 @@ phases:
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $IMAGE_REPO_NAME:latest
       - docker push $IMAGE_REPO_NAME:latest
 artifacts:
-  scan_results:
+  files:
     - image-packages.json
     - image-npm.json
     - image-gem.json
