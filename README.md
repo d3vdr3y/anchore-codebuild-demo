@@ -4,7 +4,8 @@
 - CodeBuild builds a container image from the provided Dockerfile
 - The image is pushed to ECR with a development tag
 - Anchore scans the image for vulnerabilities and other policy violations
-- If the image passes the Anchore assessment, it is pushed to ECR with the production tag | If it fails the assessment, the vulnerability output and any policy violations are zipped and stored in S3 for retrieval
+- If the image passes the Anchore assessment, it is pushed to ECR with the production tag 
+- If it fails the assessment, the vulnerability output and any policy violations are zipped and stored in S3 for retrieval
 
 
 ## Requirements
