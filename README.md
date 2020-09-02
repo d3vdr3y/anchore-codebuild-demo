@@ -9,3 +9,26 @@
 - A GitHub personal access token used to authenticate to the GitHub repository (See: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
 - An S3 Bucket that will be used to store the image evaluation results as a build output
 - The IAM role used by CodeBuild must have access to the ECR registry to pull/push the image and access to S3 to store the build artifacts (This is automatically created using the included Terraform template)
+**Terraform Requirements:**
+- Terraform (https://www.terraform.io/downloads.html)
+- AWS Command Line Interface (https://aws.amazon.com/cli/)
+- A role with permissions to create the required AWS resources
+
+**Installation**
+Inside the Terraform directory, create a '.tfvars' file to declare the required variables
+```bash
+touch terraform.tfvars
+```
+Update your values file with the required values defined in variables.tf
+
+Initialize the project and plan the deployment:
+```bash
+terraform init
+terraform plan
+```
+
+Run Terraform apply
+```bash
+terraform apply
+```
+(Note: Terraform will only deploy CodeBuild and the required resources. You can run a test build using CodeBuild from the AWS Console or via CLI)
