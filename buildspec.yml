@@ -15,8 +15,6 @@ phases:
     commands:
       # anchore-cli required for builds using standard AWS CodeBuild image
       - "pip3 install anchorecli"
-      # awscli required for builds using engine-cli docker image 
-      #- "pip3 install awscli"
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
@@ -32,9 +30,30 @@ phases:
       - echo "Waiting for analysis to complete"
       - anchore-cli image wait $IMAGE_REPO_NAME:$IMAGE_TAG --timeout $ANCHORE_TIMEOUT
       - echo "Analysis complete"
+      - echo "Producing reports"
+      - anchore-cli --json image content $IMAGE_REPO_NAME:$IMAGE_TAG os > image-packages.json
+      - anchore-cli --json image content $IMAGE_REPO_NAME:$IMAGE_TAG npm > image-npm.json
+      - anchore-cli --json image content $IMAGE_REPO_NAME:$IMAGE_TAG gem > image-gem.json
+      - anchore-cli --json image content $IMAGE_REPO_NAME:$IMAGE_TAG python > image-python.json
+      - anchore-cli --json image content $IMAGE_REPO_NAME:$IMAGE_TAG java > image-java.json
+      - anchore-cli --json image content $IMAGE_REPO_NAME:$IMAGE_TAG nuget > image-nuget.json
+      - anchore-cli --json image vuln $IMAGE_REPO_NAME:$IMAGE_TAG all > image-vulnerabilities.json
+      - anchore-cli --json image get $IMAGE_REPO_NAME:$IMAGE_TAG > image-details.json
+      - anchore-cli --json evaluate check $IMAGE_REPO_NAME:$IMAGE_TAG --detail > image-policy.json || true
       - bash -c "if [ '${ANCHORE_FAIL_ON_POLICY}' == 'true' ] ; then anchore-cli evaluate check $IMAGE_REPO_NAME:$IMAGE_TAG  ; fi"
   post_build:
     commands:
-#      - bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"0/" ]; then exit 1; fi"
+      - bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"0/" ]; then exit 1; fi"
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $IMAGE_REPO_NAME:latest
       - docker push $IMAGE_REPO_NAME:latest
+artifacts:
+  scan_results:
+    - image-packages.json
+    - image-npm.json
+    - image-gem.json
+    - image-python.json
+    - image-java.json
+    - image-nuget.json
+    - image-vulnerabilities.json
+    - image-details.json
+    - image-policy.json
