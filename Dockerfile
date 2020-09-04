@@ -1,12 +1,4 @@
-FROM registry.access.redhat.com/ubi7/ubi:latest
-USER root
-# Update image
-RUN yum update --disableplugin=subscription-manager -y && rm -rf /var/cache/yum
-RUN yum install --disableplugin=subscription-manager httpd -y && rm -rf /var/cache/yum
-# Add default Web page and expose port
-RUN echo "The Web Server is Running" > /var/www/html/index.html
-EXPOSE 80 22
-# Start the service
-CMD ["-D", "FOREGROUND"]
-ENTRYPOINT ["/usr/sbin/httpd"]
-
+FROM httpd:2.4.46-alpine
+COPY ./index.html /usr/local/apache2/htdocs/
+RUN apk update && \
+    apk upgrade
